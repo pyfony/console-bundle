@@ -27,9 +27,9 @@ packages = [
 "console" = "consolebundle.CommandRunner:runCommand"
 
 [tool.poetry.dependencies]
-colorlog = "4.0.*"
-injecta = "0.5.*"
 python = "~3.7.3"
+colorlog = "4.0.*"
+pyfony-bundles = "0.2.*"
 
 [tool.poetry.dev-dependencies]
 pylint = "2.4.*"

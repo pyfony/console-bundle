@@ -1,5 +1,4 @@
-from argparse import Namespace
-from argparse import ArgumentParser
+from argparse import Namespace, ArgumentParser
 from typing import Optional
 
 class ConsoleCommand:

@@ -1,7 +1,7 @@
 import sys
 from consolebundle.CommandManager import CommandManager
 from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
-from injecta.bundle.appContainerInit import initAppContainer
+from pyfonybundles.appContainerInit import initAppContainer
 
 def runCommand():
     argumentsParser = ConsoleArgumentParser()
