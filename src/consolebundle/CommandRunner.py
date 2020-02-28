@@ -37,3 +37,6 @@ def runCommand():
 
     knownArgs = argumentsParser.parse_known_args()[0]
     command.run(knownArgs)
+
+if __name__ == '__main__':
+    runCommand()
