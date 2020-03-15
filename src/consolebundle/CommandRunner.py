@@ -1,4 +1,5 @@
 import sys
+import os
 from consolebundle.CommandManager import CommandManager
 from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
 from pyfonybundles.appContainerInit import initAppContainer
@@ -6,7 +7,13 @@ from pyfonybundles.appContainerInit import initAppContainer
 def runCommand():
     argumentsParser = ConsoleArgumentParser()
     argumentsParser.add_argument(dest='commandName')
-    argumentsParser.add_argument('-e', '--env', required=False, default='dev', help='Environment')
+
+    envKwargs = dict(required=False, help='Environment')
+
+    if 'APP_ENV' in os.environ:
+        envKwargs['default'] = os.environ['APP_ENV']
+
+    argumentsParser.add_argument('-e', '--env', **envKwargs)
 
     knownArgs = argumentsParser.parse_known_args()[0]
 
