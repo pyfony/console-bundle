@@ -3,7 +3,7 @@ name = "console-bundle"
 version = "0.2.2"
 description = "Console Bundle for the Pyfony Framework"
 readme = "README.md"
-repository = "https://github.com/DataSentics/console-bundle"
+repository = "https://github.com/pyfony/console-bundle"
 
 license = "MIT"
 
