@@ -46,4 +46,11 @@ def runCommand():
     command.run(knownArgs)
 
 if __name__ == '__main__':
+    if 'COMMAND_DOTENV_DIR' in os.environ:
+        from dotenv import load_dotenv
+        from pathlib import Path
+
+        dotEnvDir = Path(os.environ['COMMAND_DOTENV_DIR']) / '.env'
+        load_dotenv(dotenv_path=dotEnvDir)
+
     runCommand()
