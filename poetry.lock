@@ -257,7 +257,7 @@ version = "3.4.6"
 testing = ["pytest", "coverage (>=3.6)", "pytest-cov"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Add .env support to your django/flask apps in development and deployments"
 name = "python-dotenv"
 optional = false
@@ -330,7 +330,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "a818e9b4ff4e8cf681ffc482493c9476a475a636ee86edf1042252256073906a"
+content-hash = "53f5ac6d9bc1b5a42d5400e29e89a32f780a410479ac9d0c72786da9819acb6e"
 python-versions = "~3.7.3"
 
 [metadata.files]
