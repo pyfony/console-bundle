@@ -3,7 +3,6 @@ from injecta.testing.servicesTester import testServices
 from injecta.config.YamlConfigReader import YamlConfigReader
 from injecta.package.pathResolver import resolvePath
 from typing import List
-from pyfony.PyfonyBundle import PyfonyBundle
 from pyfony.kernel.BaseKernel import BaseKernel
 from pyfonybundles.Bundle import Bundle
 from consolebundle.ConsoleBundle import ConsoleBundle
@@ -15,7 +14,6 @@ class ConsoleBundleTest(unittest.TestCase):
 
             def _registerBundles(self) -> List[Bundle]:
                 return [
-                    PyfonyBundle(),
                     ConsoleBundle(),
                 ]
 
