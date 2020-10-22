@@ -1,5 +1,7 @@
 import sys
 import os
+from pathlib import Path
+from dotenv import load_dotenv
 from consolebundle.CommandManager import CommandManager
 from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
 from pyfonybundles.appContainerInit import initAppContainer
@@ -46,11 +48,9 @@ def runCommand():
     command.run(knownArgs)
 
 if __name__ == '__main__':
-    if 'COMMAND_DOTENV_DIR' in os.environ:
-        from dotenv import load_dotenv
-        from pathlib import Path
+    dotEnvFilePath = Path.cwd() / '.env'
 
-        dotEnvDir = Path(os.environ['COMMAND_DOTENV_DIR']) / '.env'
-        load_dotenv(dotenv_path=dotEnvDir)
+    if dotEnvFilePath.exists():
+        load_dotenv(dotenv_path=str(dotEnvFilePath))
 
     runCommand()
