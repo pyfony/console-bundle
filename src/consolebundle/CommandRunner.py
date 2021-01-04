@@ -4,7 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from consolebundle.CommandManager import CommandManager
 from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
-from pyfonybundles.appContainerInit import initAppContainer
+from pyfonycore.bootstrap.config import configReader
 
 def runCommand():
     argumentsParser = ConsoleArgumentParser()
@@ -19,8 +19,9 @@ def runCommand():
 
     knownArgs = argumentsParser.parse_known_args()[0]
 
-    container = initAppContainer(knownArgs.env)
-    commandManager = container.get('consolebundle.CommandManager')  # type: CommandManager
+    bootstrapConfig = configReader.read()
+    container = bootstrapConfig.containerInitFunction(knownArgs.env, bootstrapConfig)
+    commandManager: CommandManager = container.get('consolebundle.CommandManager')
 
     logger = container.get('consolebundle.logger')
     logger.warning('Running command in {} environment'.format(knownArgs.env.upper()))
