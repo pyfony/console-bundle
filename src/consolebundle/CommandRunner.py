@@ -12,6 +12,8 @@ def runCommand():
 
     envKwargs = dict(required=False, help='Environment')
 
+    _loadDotEnv()
+
     if 'APP_ENV' in os.environ:
         envKwargs['default'] = os.environ['APP_ENV']
 
@@ -48,10 +50,11 @@ def runCommand():
     knownArgs = argumentsParser.parse_known_args()[0]
     command.run(knownArgs)
 
-if __name__ == '__main__':
+def _loadDotEnv():
     dotEnvFilePath = Path.cwd() / '.env'
 
     if dotEnvFilePath.exists():
         load_dotenv(dotenv_path=str(dotEnvFilePath))
 
+if __name__ == '__main__':
     runCommand()
