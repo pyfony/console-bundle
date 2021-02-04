@@ -7,17 +7,8 @@ from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
 from pyfonycore.bootstrap.config import configReader
 
 def runCommand():
-    argumentsParser = ConsoleArgumentParser()
-    argumentsParser.add_argument(dest='commandName')
-
-    envKwargs = dict(required=False, help='Environment')
-
     _loadDotEnv()
-
-    if 'APP_ENV' in os.environ:
-        envKwargs['default'] = os.environ['APP_ENV']
-
-    argumentsParser.add_argument('-e', '--env', **envKwargs)
+    argumentsParser = _createArgumentsParser()
 
     knownArgs = argumentsParser.parse_known_args()[0]
 
@@ -49,6 +40,19 @@ def runCommand():
 
     knownArgs = argumentsParser.parse_known_args()[0]
     command.run(knownArgs)
+
+def _createArgumentsParser():
+    argumentsParser = ConsoleArgumentParser()
+    argumentsParser.add_argument(dest='commandName')
+
+    envKwargs = dict(required=False, help='Environment')
+
+    if 'APP_ENV' in os.environ:
+        envKwargs['default'] = os.environ['APP_ENV']
+
+    argumentsParser.add_argument('-e', '--env', **envKwargs)
+
+    return argumentsParser
 
 def _loadDotEnv():
     dotEnvFilePath = Path.cwd() / '.env'
