@@ -1,20 +1,20 @@
 import logging
 import colorlog
 
-class ConsoleLoggerFactory:
 
+class ConsoleLoggerFactory:
     def create(self):
-        logger = logging.getLogger('console')
+        logger = logging.getLogger("console")
         logger.setLevel(logging.DEBUG)
 
-        formatStr = '%(message)s'
-        dateFormat = '%H:%M:%S'
-        cformat = '%(log_color)s' + formatStr
-        formatter = colorlog.ColoredFormatter(cformat, dateFormat)
+        format_str = "%(message)s"
+        date_format = "%H:%M:%S"
+        cformat = "%(log_color)s" + format_str
+        formatter = colorlog.ColoredFormatter(cformat, date_format)
 
-        streamHandler = logging.StreamHandler()
-        streamHandler.setFormatter(formatter)
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
 
-        logger.handlers = [streamHandler]
+        logger.handlers = [stream_handler]
 
         return logger

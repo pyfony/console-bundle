@@ -4,61 +4,65 @@ from pathlib import Path
 from dotenv import load_dotenv
 from consolebundle.CommandManager import CommandManager
 from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
-from pyfonycore.bootstrap.config import configReader
+from pyfonycore.bootstrap.config import config_reader
 
-def runCommand():
-    _loadDotEnv()
-    argumentsParser = _createArgumentsParser()
 
-    knownArgs = argumentsParser.parse_known_args()[0]
+def run_command():
+    _load_dot_env()
+    arguments_parser = _create_arguments_parser()
 
-    bootstrapConfig = configReader.read()
-    container = bootstrapConfig.containerInitFunction(knownArgs.env, bootstrapConfig)
-    commandManager: CommandManager = container.get('consolebundle.CommandManager')
+    known_args = arguments_parser.parse_known_args()[0]
 
-    logger = container.get('consolebundle.logger')
-    logger.warning('Running command in {} environment'.format(knownArgs.env.upper()))
+    bootstrap_config = config_reader.read()
+    container = bootstrap_config.container_init_function(known_args.env, bootstrap_config)
+    command_manager: CommandManager = container.get("consolebundle.CommandManager")
+
+    logger = container.get("consolebundle.logger")
+    logger.warning("Running command in {} environment".format(known_args.env.upper()))
 
     if len(sys.argv) < 2:
-        logger.error('Command not specified, example usage: console mynamespace:mycommand')
+        logger.error("Command not specified, example usage: console mynamespace:mycommand")
 
-        print('\n[Available commands]:')
+        print("\n[Available commands]:")
 
-        for existingCommand in commandManager.getCommands():
-            logger.info(existingCommand.getCommand() + ' - ' + existingCommand.getDescription())
+        for existing_command in command_manager.get_commands():
+            logger.info(existing_command.get_command() + " - " + existing_command.get_description())
 
         sys.exit(1)
 
     try:
-        command = commandManager.getByName(knownArgs.commandName)
-    except Exception as e: # pylint: disable = broad-except
+        command = command_manager.get_by_name(known_args.command_name)
+    except Exception as e:
         logger.error(str(e))
         sys.exit(1)
 
-    command.configure(argumentsParser)
-    argumentsParser.setCommandName(knownArgs.commandName)
+    command.configure(arguments_parser)
+    arguments_parser.set_command_name(known_args.command_name)
 
-    knownArgs = argumentsParser.parse_known_args()[0]
-    command.run(knownArgs)
+    known_args = arguments_parser.parse_known_args()[0]
+    command.run(known_args)
 
-def _createArgumentsParser():
-    argumentsParser = ConsoleArgumentParser()
-    argumentsParser.add_argument(dest='commandName')
 
-    envKwargs = dict(required=False, help='Environment')
+def _create_arguments_parser():
+    arguments_parser = ConsoleArgumentParser()
+    arguments_parser.add_argument(dest="command_name")
 
-    if 'APP_ENV' in os.environ:
-        envKwargs['default'] = os.environ['APP_ENV']
+    env_kwargs = dict(required=False, help="Environment")
 
-    argumentsParser.add_argument('-e', '--env', **envKwargs)
+    if "APP_ENV" in os.environ:
+        env_kwargs["default"] = os.environ["APP_ENV"]
 
-    return argumentsParser
+    arguments_parser.add_argument("-e", "--env", **env_kwargs)
 
-def _loadDotEnv():
-    dotEnvFilePath = Path.cwd() / '.env'
+    return arguments_parser
 
-    if dotEnvFilePath.exists():
-        load_dotenv(dotenv_path=str(dotEnvFilePath))
 
-if __name__ == '__main__':
-    runCommand()
+def _load_dot_env():
+    dot_env_file_path = Path.cwd() / ".env"
+
+    if dot_env_file_path.exists():
+        load_dotenv(dotenv_path=str(dot_env_file_path))
+
+
+if __name__ == "__main__":
+    run_command()

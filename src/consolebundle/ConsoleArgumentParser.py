@@ -1,26 +1,27 @@
 from argparse import ArgumentParser
 
+
 class ConsoleArgumentParser(ArgumentParser):
 
-    __commandName = None
-    __commandNameMessage1 = 'usage: console [-h] [-e ENV] commandName'
-    __commandNameMessage2 = 'console: error: the following arguments are required: commandName'
+    __command_name = None
+    __command_name_message1 = "usage: console [-h] [-e ENV] command_name"
+    __command_name_message2 = "console: error: the following arguments are required: command_name"
 
-    def setCommandName(self, commandName: str):
-        self.__commandName = commandName
+    def set_command_name(self, command_name: str):
+        self.__command_name = command_name
 
     def exit(self, status=0, message=None):
-        strippedMessage = message.strip()
+        stripped_message = message.strip()
 
-        if strippedMessage == self.__commandNameMessage2:
+        if stripped_message == self.__command_name_message2:
             return
 
         super().exit(status, message)
 
     def _print_message(self, message, file=None):
-        strippedMessage = message.strip()
+        stripped_message = message.strip()
 
-        if strippedMessage in (self.__commandNameMessage1, self.__commandNameMessage1):
+        if stripped_message in (self.__command_name_message1, self.__command_name_message1):
             return
 
-        super()._print_message(message.replace('commandName', self.__commandName), file)
+        super()._print_message(message.replace("command_name", self.__command_name), file)
