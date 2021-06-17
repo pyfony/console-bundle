@@ -7,6 +7,12 @@ from consolebundle.ConsoleArgumentParser import ConsoleArgumentParser
 from pyfonycore.bootstrap.config import config_reader
 
 
+def format_full_command_help(help_message, command_name):
+    formatted_command_string = " ".join(command_name)
+    help_message = help_message.replace("[command_name [command_name ...]]", formatted_command_string)
+    help_message = help_message.replace("command_name", formatted_command_string)
+    return help_message
+
 def run_command():
     _load_dot_env()
     arguments_parser = _create_arguments_parser()
@@ -20,13 +26,15 @@ def run_command():
     logger = container.get("consolebundle.logger")
     logger.warning("Running command in {} environment".format(known_args.env.upper()))
 
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 2 or (known_args.help_selected and len(known_args.command_name) < 0):
         logger.error("Command not specified, example usage: console mynamespace:mycommand")
 
-        print("\n[Available commands]:")
+        command_manager.log_commands(logger)
 
-        for existing_command in command_manager.get_commands():
-            logger.info(existing_command.get_command() + " - " + existing_command.get_description())
+        sys.exit(1)
+    elif command_manager.command_prefix_only(known_args.command_name):
+
+        command_manager.log_subcommands(known_args.command_name, logger)
 
         sys.exit(1)
 
@@ -39,13 +47,22 @@ def run_command():
     command.configure(arguments_parser)
     arguments_parser.set_command_name(known_args.command_name)
 
-    known_args = arguments_parser.parse_known_args()[0]
-    command.run(known_args)
+    if known_args.help_selected:
+        help_message = arguments_parser.format_help()
+
+        logger.info(format_full_command_help(help_message, known_args.command_name))
+
+        sys.exit(1)
+    else:
+        known_args = arguments_parser.parse_known_args()[0]
+        command.run(known_args)
 
 
 def _create_arguments_parser():
-    arguments_parser = ConsoleArgumentParser()
-    arguments_parser.add_argument(dest="command_name")
+    arguments_parser = ConsoleArgumentParser(add_help=None)
+    arguments_parser.add_argument("-h", "--help", dest="help_selected",
+                                  action='store_const', const=True, default=False)
+    arguments_parser.add_argument(dest="command_name", nargs='*')
 
     env_kwargs = dict(required=False, help="Environment")
 
