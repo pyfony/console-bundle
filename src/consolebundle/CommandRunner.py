@@ -13,6 +13,19 @@ def format_full_command_help(help_message, command_name):
     help_message = help_message.replace("command_name", formatted_command_string)
     return help_message
 
+def log_commands(command_manager: CommandManager, logger):
+    print("\n[Available commands]:", flush=True)
+    for existing_command in command_manager.get_commands():
+        logger.info(existing_command.get_command() + " - " + existing_command.get_description())
+
+def log_subcommands(command_manager: CommandManager, command_name: list, logger):
+    print("\n[Available space-separated commands]:", flush=True)
+    for existing_command in command_manager.get_commands():
+        prefixes_same, sep = command_manager.prefixes_same_on_separators(existing_command.get_command(), command_name)
+        if prefixes_same:
+            logger.info(
+                f"{' '.join(existing_command.get_command().split(sep))} - " + existing_command.get_description())
+
 def run_command():
     _load_dot_env()
     arguments_parser = _create_arguments_parser()
@@ -26,17 +39,17 @@ def run_command():
     logger = container.get("consolebundle.logger")
     logger.warning("Running command in {} environment".format(known_args.env.upper()))
 
-    if len(sys.argv) < 2 or (known_args.help_selected and len(known_args.command_name) < 0):
+    if len(sys.argv) < 2 or (known_args.help_selected and len(known_args.command_name) < 1):
         logger.error("Command not specified, example usage: console mynamespace:mycommand")
 
-        command_manager.log_commands(logger)
+        log_commands(command_manager, logger)
 
-        sys.exit(1)
+        sys.exit(0)
     elif command_manager.command_prefix_only(known_args.command_name):
 
-        command_manager.log_subcommands(known_args.command_name, logger)
+        log_subcommands(command_manager, known_args.command_name, logger)
 
-        sys.exit(1)
+        sys.exit(0)
 
     try:
         command = command_manager.get_by_name(known_args.command_name)
@@ -52,7 +65,7 @@ def run_command():
 
         logger.info(format_full_command_help(help_message, known_args.command_name))
 
-        sys.exit(1)
+        sys.exit(0)
     else:
         known_args = arguments_parser.parse_known_args()[0]
         command.run(known_args)
