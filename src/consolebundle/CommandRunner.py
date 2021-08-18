@@ -61,7 +61,7 @@ def _load_dot_env():
     dot_env_file_path = Path.cwd() / ".env"
 
     if dot_env_file_path.exists():
-        load_dotenv(dotenv_path=str(dot_env_file_path))
+        load_dotenv(dotenv_path=str(dot_env_file_path), override=True)
 
 
 if __name__ == "__main__":
