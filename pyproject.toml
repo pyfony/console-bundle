@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "console-bundle"
-version = "0.4.0"
+version = "0.4.1"
 description = "Console Bundle for the Pyfony Framework"
 readme = "README.md"
 repository = "https://github.com/pyfony/console-bundle"
