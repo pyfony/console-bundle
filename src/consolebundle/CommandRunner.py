@@ -16,7 +16,7 @@ def format_full_command_help(help_message, command_name):
 def log_commands(command_manager: CommandManager, logger):
     print("\n[Available commands]:", flush=True)
     for existing_command in command_manager.get_commands():
-        logger.info(existing_command.get_command() + " - " + existing_command.get_description())
+        logger.info(existing_command.get_command().replace(":", " ") + " - " + existing_command.get_description())
 
 def log_subcommands(command_manager: CommandManager, command_name: list, logger):
     print("\n[Available space-separated commands]:", flush=True)
