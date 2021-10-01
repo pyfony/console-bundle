@@ -13,18 +13,20 @@ def format_full_command_help(help_message, command_name):
     help_message = help_message.replace("command_name", formatted_command_string)
     return help_message
 
+
 def log_commands(command_manager: CommandManager, logger):
     print("\n[Available commands]:", flush=True)
     for existing_command in command_manager.get_commands():
         logger.info(existing_command.get_command().replace(":", " ") + " - " + existing_command.get_description())
+
 
 def log_subcommands(command_manager: CommandManager, command_name: list, logger):
     print("\n[Available space-separated commands]:", flush=True)
     for existing_command in command_manager.get_commands():
         prefixes_same, sep = command_manager.prefixes_same_on_separators(existing_command.get_command(), command_name)
         if prefixes_same:
-            logger.info(
-                f"{' '.join(existing_command.get_command().split(sep))} - " + existing_command.get_description())
+            logger.info(f"{' '.join(existing_command.get_command().split(sep))} - " + existing_command.get_description())
+
 
 def run_command():
     _load_dot_env()
@@ -73,9 +75,8 @@ def run_command():
 
 def _create_arguments_parser():
     arguments_parser = ConsoleArgumentParser(add_help=None)
-    arguments_parser.add_argument("-h", "--help", dest="help_selected",
-                                  action='store_const', const=True, default=False)
-    arguments_parser.add_argument(dest="command_name", nargs='*')
+    arguments_parser.add_argument("-h", "--help", dest="help_selected", action="store_const", const=True, default=False)
+    arguments_parser.add_argument(dest="command_name", nargs="*")
 
     env_kwargs = dict(required=False, help="Environment")
 

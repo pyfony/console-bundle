@@ -4,7 +4,7 @@ from consolebundle.ConsoleCommand import ConsoleCommand
 
 class CommandManager:
 
-    POSSIBLE_SEPARATORS = [':', ' ']
+    POSSIBLE_SEPARATORS = [":", " "]
 
     def __init__(self, commands: List[ConsoleCommand]):
         self.__commands = commands
@@ -21,7 +21,7 @@ class CommandManager:
     def get_commands(self):
         return self.__commands
 
-    def get_by_name(self, name_parts: list) -> ConsoleCommand:
+    def get_by_name(self, name_parts: str) -> ConsoleCommand:
         possible_names = self.get_possible_names(name_parts)
         for command in self.__commands:
             if command.get_command() in possible_names:
@@ -45,4 +45,3 @@ class CommandManager:
                 if is_sublist:
                     return True
         return False
-
