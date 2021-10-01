@@ -7,7 +7,7 @@ class ConsoleArgumentParser(ArgumentParser):
     __command_name_usage_message = "usage: console [-h] [-e ENV] command_name"
     __command_name_error_messages = (
         "console: error: the following arguments are required: command_name",
-        "CommandRunner.py: error: the following arguments are required: command_name"
+        "CommandRunner.py: error: the following arguments are required: command_name",
     )
 
     def set_command_name(self, command_name: str):
