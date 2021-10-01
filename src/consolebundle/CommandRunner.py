@@ -17,7 +17,7 @@ def format_full_command_help(help_message, command_name):
 def log_commands(command_manager: CommandManager, logger):
     print("\n[Available commands]:", flush=True)
     for existing_command in command_manager.get_commands():
-        logger.info(existing_command.get_command().replace(":", " ") + " - " + existing_command.get_description())
+        logger.info(existing_command.get_command() + " - " + existing_command.get_description())
 
 
 def log_subcommands(command_manager: CommandManager, command_name: list, logger):
@@ -25,7 +25,7 @@ def log_subcommands(command_manager: CommandManager, command_name: list, logger)
     for existing_command in command_manager.get_commands():
         prefixes_same, sep = command_manager.prefixes_same_on_separators(existing_command.get_command(), command_name)
         if prefixes_same:
-            logger.info(f"{' '.join(existing_command.get_command().split(sep))} - " + existing_command.get_description())
+            logger.info(f"{existing_command.get_command()} - " + existing_command.get_description())
 
 
 def run_command():
