@@ -21,13 +21,12 @@ class CommandManager:
     def get_commands(self):
         return self.__commands
 
-    def get_by_name(self, name_parts: str) -> ConsoleCommand:
-        possible_names = self.get_possible_names(name_parts)
+    def get_by_name(self, name: str) -> ConsoleCommand:
         for command in self.__commands:
-            if command.get_command() in possible_names:
+            if command.get_command() == name:
                 return command
 
-        raise Exception('No command with names in "{}" found'.format(str(possible_names)))
+        raise Exception('No command with names in "{}" found'.format(str(name)))
 
     def command_prefix_only(self, name_parts: list) -> bool:
         for command in self.__commands:
