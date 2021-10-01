@@ -54,7 +54,7 @@ def run_command():
         sys.exit(0)
 
     try:
-        command = command_manager.get_by_name(known_args.command_name)
+        command = command_manager.get_by_name(known_args.command_name[0])
     except Exception as e:
         logger.error(str(e))
         sys.exit(1)
